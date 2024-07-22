@@ -1,0 +1,154 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model AlunosMatriculados {
+  id                                 String                              @id
+  celular                            String
+  cpf                                String                              @unique
+  dataNascimento                     String
+  email                              String
+  nomeCompleto                       String
+  rg                                 String?
+  numeroDaFila                       Int                                 @default(autoincrement())
+  deletedAt                          Boolean                             @default(false)
+  AlunosMatriculadosTurma            AlunosMatriculadosTurma[]
+  EnderecoAlunosMatriculados         EnderecoAlunosMatriculados?
+  RepresentanteLegalAlunoMatriculado RepresentanteLegalAlunoMatriculado?
+}
+
+model AlunosMatriculadosTurma {
+  alunoMatriculadoId String
+  turmaId            String
+  AlunosMatriculados AlunosMatriculados @relation(fields: [alunoMatriculadoId], references: [id], onDelete: Cascade)
+  Turmas             Turmas             @relation(fields: [turmaId], references: [id])
+
+  @@id([alunoMatriculadoId, turmaId])
+}
+
+model Alunos_Veteranos_2023 {
+  nome               String  @id @db.VarChar(56)
+  email              String? @db.VarChar(38)
+  curso              String? @db.VarChar(25)
+  cpf                String? @db.VarChar(41)
+  idade              String? @db.VarChar(7)
+  telefone           String? @db.VarChar(23)
+  endereco           String? @db.VarChar(92)
+  Data_de_Nascimento String? @map("Data de Nascimento") @db.VarChar(18)
+  Horario_do_Curso   String? @map("Horario do Curso") @db.VarChar(7)
+  nome_responsavel   String? @db.VarChar(114)
+}
+
+model Classes {
+  id               String @id
+  nivel            String
+  turmaId          String
+  numeroDeVagas    Int    @default(0)
+  vagasPreenchidas Int    @default(0)
+  Turmas           Turmas @relation(fields: [turmaId], references: [id])
+}
+
+model Cursos {
+  id               String   @id
+  nome             String
+  semestreOfertado Int
+  anoOfertado      Int
+  ementa           String?
+  restricaoIdade   Int?
+  Turmas           Turmas[]
+}
+
+model Endereco {
+  id          String  @id
+  bairro      String
+  cep         String
+  cidade      String
+  complemento String?
+  estado      String
+  rua         String
+  numero      String
+  profileId   String  @unique
+  Profile     Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+}
+
+model EnderecoAlunosMatriculados {
+  id                 String             @id
+  bairro             String
+  cep                String
+  cidade             String
+  complemento        String?
+  estado             String
+  rua                String
+  numero             String
+  alunoMatriculadoId String             @unique
+  AlunosMatriculados AlunosMatriculados @relation(fields: [alunoMatriculadoId], references: [id], onDelete: Cascade)
+}
+
+model Profile {
+  id                 String              @id
+  celular            String
+  cpf                String              @unique
+  dataNascimento     String
+  email              String
+  nomeCompleto       String
+  rg                 String?
+  veterano           Boolean             @default(false)
+  numeroDaFila       Int                 @default(autoincrement())
+  Endereco           Endereco?
+  ProfileTurma       ProfileTurma[]
+  RepresentanteLegal RepresentanteLegal?
+}
+
+model ProfileTurma {
+  profileId String
+  turmaId   String
+  Profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  Turmas    Turmas  @relation(fields: [turmaId], references: [id])
+
+  @@id([profileId, turmaId])
+}
+
+model RepresentanteLegal {
+  id             String  @id
+  celular        String
+  cpf            String
+  dataNascimento String
+  email          String
+  nomeCompleto   String
+  grauParentesco String
+  rg             String?
+  profileId      String  @unique
+  Profile        Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+}
+
+model RepresentanteLegalAlunoMatriculado {
+  id                 String             @id
+  celular            String
+  cpf                String
+  dataNascimento     String
+  email              String
+  nomeCompleto       String
+  grauParentesco     String
+  rg                 String?
+  alunoMatriculadoId String             @unique
+  AlunosMatriculados AlunosMatriculados @relation(fields: [alunoMatriculadoId], references: [id], onDelete: Cascade)
+}
+
+model Turmas {
+  id                      String                    @id
+  nome                    String
+  horario                 String
+  cursoId                 String
+  numeroDeVagas           Int                       @default(0)
+  preCadastro             Boolean                   @default(true)
+  vagasPreenchidas        Int                       @default(0)
+  AlunosMatriculadosTurma AlunosMatriculadosTurma[]
+  Classes                 Classes[]
+  ProfileTurma            ProfileTurma[]
+  Cursos                  Cursos                    @relation(fields: [cursoId], references: [id])
+}
