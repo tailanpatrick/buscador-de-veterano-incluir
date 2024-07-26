@@ -14,7 +14,7 @@ routes.post('/verificador', async (req, res) => {
             where: {
                 AND: [
                     { cpf: { startsWith: cpf } },
-                    { nomeCompleto: { startsWith: name, mode: 'insensitive' } }
+                    { nomeCompleto: { contains: name, mode: 'insensitive' } }
                 ]
             }
         });
