@@ -5,7 +5,7 @@ const routes = express.Router();
 routes.post('/verificador', async (req, res) => {
     const { name, cpf } = req.body;
 
-    if (name.trim() === '' && cpf.trim() === '') {
+    if (!name.trim() && !cpf.trim()) {
         return res.status(400).json({ message: 'Ambos os campos estão em branco' });
     }
 
@@ -13,8 +13,8 @@ routes.post('/verificador', async (req, res) => {
         const users = await prisma.alunosMatriculados.findMany({
             where: {
                 AND: [
-                    { cpf: { startsWith: cpf } },
-                    { nomeCompleto: { contains: name, mode: 'insensitive' } }
+                    { cpf: { startsWith: cpf || '' } },
+                    { nomeCompleto: { contains: name || '', mode: 'insensitive' } }
                 ]
             }
         });
@@ -28,6 +28,7 @@ routes.post('/verificador', async (req, res) => {
         if (userData.length > 0) {
             return res.status(200).json(userData);
         }
+
         return res.status(200).json({ message: 'Nenhum aluno encontrado!' });
     } catch (error) {
         console.error(error);
