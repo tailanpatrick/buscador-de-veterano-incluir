@@ -10,6 +10,7 @@ import TableResult from "./ui/TableResult";
 const Home = () => {
   const [formData, setFormData] = useState({
     cpf: "",
+    email:"",
     name: "",
   });
 
@@ -32,7 +33,8 @@ const Home = () => {
 
     if (
       (name === "cpf" && value.length >= 3) ||
-      (name === "name" && value.length >= 3)
+      (name === "name" && value.length >= 3) ||
+      (name === "email" && value.length >= 3)
     ) {
       const people = await findPeople(
         { ...formData, [name]: value },
@@ -65,6 +67,13 @@ const Home = () => {
             maxlength="14"
             onChange={handleChangeInputs}
             value={formData.cpf}
+          />
+
+          <Input
+            name="email"
+            label="Busque por Email"
+            onChange={handleChangeInputs}
+            value={formData.email}
           />
 
           <Input
