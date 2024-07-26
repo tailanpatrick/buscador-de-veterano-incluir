@@ -1,5 +1,5 @@
 const express = require("express");
-const { prisma } = require("./prisma.js"); // Verifique se o caminho está correto
+const { prisma } = require("./prisma.js"); 
 const routes = express.Router();
 
 routes.post("/verificador", async (req, res) => {
@@ -10,20 +10,11 @@ routes.post("/verificador", async (req, res) => {
   }
 
   try {
-    // const users = await prisma.alunosMatriculados.findMany({
-    //     where: {
-    //         AND: [
-    //             { cpf: { startsWith: cpf || '' } },
-    //             { nomeCompleto: { contains: name || '', mode: 'insensitive' } }
-    //         ]
-    //     }
-    // });
-    const users = await prisma.$queryRaw`
-            SELECT * FROM "AlunosMatriculados"
-            WHERE cpf ilike ${cpf} ||'%' AND
-            unaccent("nomeCompleto") like unaccent(${name}) ||'%'
-             `;
-    console.log(users);
+    
+    const users = await prisma.$queryRaw`SELECT * FROM "AlunosMatriculados" 
+      WHERE cpf ilike ${cpf} || '%' AND unaccent("nomeCompleto") 
+      ilike '%' || unaccent(${name}) || '%'`;
+    
     const userData = users.map((user) => ({
       CPF: user.cpf,
       email: user.email,
