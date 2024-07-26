@@ -1,16 +1,23 @@
 import axios from "axios";
 
 const findPeople = async (formData, setError, setMsg) => {
-  if (!formData.cpf.trim() && !formData.name.trim()) {
-    setError("Ambos os campos estão em branco");
+  if ((!formData.cpf.trim()) &&
+    (!formData.email.trim()) &&
+    (!formData.name.trim())) 
+  {
+    setError("Todos os campos estão em branco");
     setMsg("");
     return;
   }
 
   try {
     const response = await axios.post(
-      "http://localhost:3000/verificador",
-      { cpf: formData.cpf, name: formData.name },
+      "http://192.168.100.175:3000/verificador",
+      { 
+        cpf: formData.cpf, 
+        email:formData.email, 
+        name: formData.name 
+      },
       {
         headers: { "Content-Type": "application/json" },
       }
@@ -26,7 +33,7 @@ const findPeople = async (formData, setError, setMsg) => {
       }
     }
   } catch (error) {
-    console.log(error); // Adicione isto para depuração
+    console.log(error); 
     if (!error?.response) {
       setError("Erro ao acessar o servidor");
     } else if (error.response.status === 401) {
