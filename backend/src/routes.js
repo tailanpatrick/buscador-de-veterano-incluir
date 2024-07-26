@@ -6,7 +6,7 @@ routes.post("/verificador", async (req, res) => {
   const { name, email,  cpf } = req.body;
 
   if (!name.trim() && !cpf.trim() && !email.trim()) {
-    return res.status(400).json({ message: "Ambos os campos estão em branco" });
+    return res.status(400).json({ message: "Todos os campos estão em branco" });
   }
 
   try {
