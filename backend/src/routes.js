@@ -3,9 +3,9 @@ const { prisma } = require("./prisma.js");
 const routes = express.Router();
 
 routes.post("/verificador", async (req, res) => {
-  const { name, cpf } = req.body;
+  const { name, email,  cpf } = req.body;
 
-  if (!name.trim() && !cpf.trim()) {
+  if (!name.trim() && !cpf.trim() && !email.trim()) {
     return res.status(400).json({ message: "Ambos os campos estão em branco" });
   }
 
@@ -13,7 +13,7 @@ routes.post("/verificador", async (req, res) => {
     
     const users = await prisma.$queryRaw`SELECT * FROM "AlunosMatriculados" 
       WHERE cpf ilike ${cpf} || '%' AND unaccent("nomeCompleto") 
-      ilike '%' || unaccent(${name}) || '%'`;
+      ilike '%' || unaccent(${name}) || '%' AND "email" ilike ${email} || '%'`;
     
     const userData = users.map((user) => ({
       CPF: user.cpf,
