@@ -11,9 +11,9 @@ routes.post("/verificador", async (req, res) => {
 
   try {
     
-    const users = await prisma.$queryRaw`SELECT * FROM "AlunosMatriculados" 
+    const users = await prisma.$queryRaw`SELECT "cpf", "email", "nomeCompleto" FROM "AlunosMatriculados" 
       WHERE cpf ilike ${cpf} || '%' AND unaccent("nomeCompleto") 
-      ilike '%' || unaccent(${name}) || '%' AND "email" ilike ${email} || '%'`;
+      ilike '%' || unaccent(${name}) || '%' AND "email" ilike '%' || ${email} || '%'`;
     
     const userData = users.map((user) => ({
       CPF: user.cpf,
