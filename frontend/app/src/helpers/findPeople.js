@@ -12,7 +12,7 @@ const findPeople = async (formData, setError, setMsg) => {
 
   try {
     const response = await axios.post(
-      "http://192.168.100.175:3000/verificador",
+      "http://localhost:3000/verificador",
       { 
         cpf: formData.cpf, 
         email:formData.email, 
