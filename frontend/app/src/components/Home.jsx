@@ -65,9 +65,7 @@ const Home = () => {
                     <Button />
                 </form>
 
-                <p className="text-red-500">{error}</p>
-                <p className="text-red-500"
-                    style={{ whiteSpace: "pre-line" }}>{msg}</p>
+                <p className="text-red-500 text-center text-lg font-bold p-6">{error}{msg}</p>
 
             </div>
             <div className="relative flex flex-col justify-center rounded-2xl py-6 bg-transparent bg-clip-border text-gray-700 shadow-none max-w-[95%] overflow-x-scroll [&::-webkit-scrollbar]:hidden border-b-gray-400">
