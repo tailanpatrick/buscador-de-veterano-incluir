@@ -64,7 +64,7 @@ export default function TableResult({ data }) {
                     </Table>
                 </TableContainer>
             ): (
-                <p className="text-red-500 text-xl font-bold">{data.message}</p>
+                <></>
             )}
         </Box>
     );
