@@ -41,7 +41,7 @@ const findPeople = async (formData, setError, setMsg) => {
     } else if (error.response.status === 400) {
       setError(error.response.data.message);
     } else {
-      setError("Erro desconhecido");
+      setError(error.response.data.message);
     }
     setMsg("");
   }
