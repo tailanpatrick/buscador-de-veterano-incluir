@@ -6,10 +6,10 @@
       "use": "@vercel/node"
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/verificador",
-      "dest": "/src/server.js"
+      "source": "/verificador",
+      "destination": "/src/server.js"
     }
   ],
   "headers": [
