@@ -10,13 +10,13 @@ app.use(cors({
     origin: 'https://buscador-de-veterano-incluir-front.vercel.app', // Permitir apenas o frontend
     methods: 'GET, POST, PUT, DELETE, OPTIONS', // Métodos permitidos
     allowedHeaders: 'Content-Type, Authorization', // Cabeçalhos permitidos
-    credentials: false // Se for usar cookies ou autenticação
+    credentials: true, // Se for usar cookies ou autenticação
 }));
 
-// Middleware para lidar com preflight requests (OPTIONS)
-app.options('*', cors());
+// Tratamento da solicitação OPTIONS
+app.options('*', cors()); // Responde a todas as requisições OPTIONS
 
-// Usar as rotas definidas
+app.use(express.json()); // Certifique-se de que o body das requisições está sendo tratado
 app.use(routes);
 
 app.get('/', (req, res) => {
@@ -24,6 +24,7 @@ app.get('/', (req, res) => {
 });
 
 // Iniciar o servidor
-app.listen(3000, () => {
-    console.log('Listening on port 3000');
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+    console.log(`Listening on port ${port}`);
 });
