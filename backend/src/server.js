@@ -5,16 +5,14 @@ const dotenv = require('dotenv').config();
 
 const app = express();
 
-app.use(express.json());
 
 // Configuração do CORS
-const corsOptions = {
-    origin: 'https://buscador-de-veterano-incluir-front.vercel.app',
-    methods: 'GET,POST',
-    optionsSuccessStatus: 200
-};
-
-app.use(cors(corsOptions));
+app.use(cors({
+    origin: 'https://buscador-de-veterano-incluir-front.vercel.app', // Permitir apenas o frontend
+    methods: 'GET, POST, PUT, DELETE, OPTIONS', // Métodos permitidos
+    allowedHeaders: 'Content-Type,Authorization', // Cabeçalhos permitidos
+    credentials: true, // Se for usar cookies ou autenticação
+  }));
 
 
 app.use(routes);
