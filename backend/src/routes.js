@@ -11,15 +11,15 @@ routes.post("/verificador", async (req, res) => {
 
   try {
     
-    const users = await prisma.$queryRaw`SELECT "cpf", "email", "nomeCompleto" FROM "AlunosMatriculados" 
-      WHERE cpf ilike ${cpf} || '%' AND unaccent("nomeCompleto") 
+    const users = await prisma.$queryRaw`SELECT "cpf", "email", "nome_completo" FROM "AlunosMatriculados" 
+      WHERE cpf ilike ${cpf} || '%' AND unaccent("nome_completo") 
       ilike '%' || unaccent(${name}) || '%' AND "email" ilike '%' || ${email} || '%'
-      ORDER BY "nomeCompleto"`;
+      ORDER BY "nome_completo"`;
     
     const userData = users.map((user) => ({
       CPF: user.cpf,
       email: user.email,
-      name: user.nomeCompleto,
+      name: user.nome_completo,
     }));
 
     if (userData.length > 0) {
