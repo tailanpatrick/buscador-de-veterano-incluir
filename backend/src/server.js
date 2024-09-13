@@ -5,18 +5,19 @@ const dotenv = require('dotenv').config();
 
 const app = express();
 
-
 // Configuração do CORS
 app.use(cors({
     origin: 'https://buscador-de-veterano-incluir-front.vercel.app', // Permitir apenas o frontend
     methods: 'GET, POST, PUT, DELETE, OPTIONS', // Métodos permitidos
-    allowedHeaders: 'Content-Type,Authorization', // Cabeçalhos permitidos
-    credentials: true, // Se for usar cookies ou autenticação
-  }));
+    allowedHeaders: 'Content-Type, Authorization', // Cabeçalhos permitidos
+    credentials: true // Se for usar cookies ou autenticação
+}));
 
+// Middleware para lidar com preflight requests (OPTIONS)
+app.options('*', cors());
 
+// Usar as rotas definidas
 app.use(routes);
-
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
