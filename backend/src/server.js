@@ -4,7 +4,18 @@ const dotenv = require('dotenv').config();
 
 const app = express();
 
-app.use(express.json()); 
+// Middleware para lidar com OPTIONS
+app.use((req, res, next) => {
+  if (req.method === 'OPTIONS') {
+    res.header('Access-Control-Allow-Origin', 'https://buscador-de-veterano-incluir-front.vercel.app');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    return res.sendStatus(200); // Respondendo com 200 OK para requisições preflight
+  }
+  next();
+});
+
+app.use(express.json());
 app.use(routes);
 
 app.get('/', (req, res) => {
