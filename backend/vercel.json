@@ -1,15 +1,35 @@
 {
-    "version": 2,
-    "builds": [
-        {
-            "src": "./src/server.js",
-            "use": "@vercel/node"
-        }
-    ],
-    "routes": [
-        {
-            "src": "/verificador",
-            "dest": "/src/server.js"
-        }
-    ]
+	"version": 2,
+	"builds": [
+		{
+			"src": "./src/server.js",
+			"use": "@vercel/node"
+		}
+	],
+	"routes": [
+		{
+			"src": "/verificador",
+			"dest": "/src/server.js"
+		}
+	],
+
+	"headers": [
+		{
+			"source": "/(.*)",
+			"headers": [
+				{
+					"key": "Access-Control-Allow-Origin",
+					"value": "https://buscador-de-veterano-incluir-front.vercel.app"
+				},
+				{
+					"key": "Access-Control-Allow-Methods",
+					"value": "GET, POST, OPTIONS"
+				},
+				{
+					"key": "Access-Control-Allow-Headers",
+					"value": "Content-Type, Authorization"
+				}
+			]
+		}
+	]
 }
