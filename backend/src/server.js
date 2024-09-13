@@ -10,7 +10,7 @@ app.use(cors({
     origin: 'https://buscador-de-veterano-incluir-front.vercel.app', // Permitir apenas o frontend
     methods: 'GET, POST, PUT, DELETE, OPTIONS', // Métodos permitidos
     allowedHeaders: 'Content-Type, Authorization', // Cabeçalhos permitidos
-    credentials: true // Se for usar cookies ou autenticação
+    credentials: false // Se for usar cookies ou autenticação
 }));
 
 // Middleware para lidar com preflight requests (OPTIONS)
