@@ -12,7 +12,7 @@ const findPeople = async (formData, setError, setMsg) => {
 
   try {
     const response = await axios.post(
-      "https://buscador-de-veterano-incluir-backe.vercel.app/verificador",
+      "http://localhost:3000/verificador",
       { 
         cpf: formData.cpf, 
         email:formData.email, 

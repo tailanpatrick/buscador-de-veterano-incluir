@@ -4,16 +4,24 @@ const dotenv = require('dotenv').config();
 
 const app = express();
 
-// Middleware para lidar com OPTIONS
-app.use((req, res, next) => {
-  if (req.method === 'OPTIONS') {
-    res.header('Access-Control-Allow-Origin', 'https://buscador-de-veterano-incluir-front.vercel.app');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    return res.sendStatus(200); // Respondendo com 200 OK para requisições preflight
+const cors = require('cors');
+
+// Definir múltiplas origens
+const allowedOrigins = ['https://buscador-de-veterano-incluir-front.vercel.app', 'http://localhost:3001'];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // Permitir requisições sem origin (como apps mobile ou outras origens não definidas)
+    if (!origin) return callback(null, true);
+    
+    // Verificar se a origem está na lista de permitidas
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'A origem ' + origin + ' não está permitida pelo CORS';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
   }
-  next();
-});
+}));
 
 app.use(express.json());
 app.use(routes);
